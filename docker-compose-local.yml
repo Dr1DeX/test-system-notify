@@ -1,0 +1,40 @@
+version: "3"
+services:
+  db:
+    image: postgres:14.10-alpine
+    restart: always
+    container_name: db
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: notify
+    ports:
+      - "5432:5432"
+
+  mailhog:
+    image: mailhog/mailhog:v1.0.1
+    container_name: mailhog
+    restart: always
+    ports:
+      - "8025:8025"
+
+  redis:
+    image: redis:7.4.1-alpine
+    container_name: redis
+    restart: always
+
+  rabbitmq:
+    image: rabbitmq:3.12.0-alpine
+    restart: always
+    container_name: rabbit
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    environment:
+      RABBITMQ_USER: rebbit
+      RABBITMQ_PASSWORD: rebbit
+
+volumes:
+  postgres-data
